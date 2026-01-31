@@ -26,7 +26,9 @@ namespace IncomingGoodsBackend.Data
                 .HasForeignKey(p => p.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Seed some sample data
+            // Seed some sample data with fixed dates
+            var baseDate = new DateTime(2026, 1, 26, 10, 0, 0, DateTimeKind.Utc);
+            
             modelBuilder.Entity<Order>().HasData(
                 new Order
                 {
@@ -34,7 +36,7 @@ namespace IncomingGoodsBackend.Data
                     Barcode = "123456789",
                     Description = "Office Supplies - Box of Pens",
                     SupplierName = "Office Depot",
-                    OrderDate = DateTime.Now.AddDays(-5),
+                    OrderDate = baseDate,
                     Status = "Pending"
                 },
                 new Order
@@ -43,7 +45,7 @@ namespace IncomingGoodsBackend.Data
                     Barcode = "987654321",
                     Description = "Computer Equipment - Laptop",
                     SupplierName = "Tech Solutions Inc",
-                    OrderDate = DateTime.Now.AddDays(-3),
+                    OrderDate = baseDate.AddDays(2),
                     Status = "Pending"
                 },
                 new Order
@@ -52,8 +54,8 @@ namespace IncomingGoodsBackend.Data
                     Barcode = "555666777",
                     Description = "Furniture - Office Chairs (Set of 5)",
                     SupplierName = "Furniture Plus",
-                    OrderDate = DateTime.Now.AddDays(-7),
-                    ArrivalDate = DateTime.Now.AddDays(-2),
+                    OrderDate = baseDate.AddDays(-2),
+                    ArrivalDate = baseDate.AddDays(3),
                     Status = "Arrived"
                 }
             );

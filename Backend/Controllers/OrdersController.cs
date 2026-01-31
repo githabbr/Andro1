@@ -167,6 +167,28 @@ namespace IncomingGoodsBackend.Controllers
 
             try
             {
+                // Validate file extension
+                var fileExtension = Path.GetExtension(photoDto.FileName)?.ToLowerInvariant();
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".bmp" };
+                
+                if (string.IsNullOrEmpty(fileExtension) || !allowedExtensions.Contains(fileExtension))
+                {
+                    return BadRequest(new { message = "Invalid file type. Only jpg, jpeg, png, gif, and bmp files are allowed." });
+                }
+
+                // Validate base64 data size (limit to 10MB)
+                const int maxSizeInBytes = 10 * 1024 * 1024; // 10MB
+                if (photoDto.Base64Data.Length > maxSizeInBytes * 4 / 3) // Base64 is ~33% larger
+                {
+                    return BadRequest(new { message = "File size exceeds the maximum allowed size of 10MB." });
+                }
+
+                // Validate base64 format
+                if (!IsValidBase64String(photoDto.Base64Data))
+                {
+                    return BadRequest(new { message = "Invalid base64 data format." });
+                }
+
                 // Create uploads directory if it doesn't exist
                 var uploadsDir = Path.Combine(_environment.ContentRootPath, "uploads");
                 if (!Directory.Exists(uploadsDir))
@@ -174,8 +196,7 @@ namespace IncomingGoodsBackend.Controllers
                     Directory.CreateDirectory(uploadsDir);
                 }
 
-                // Generate unique filename
-                var fileExtension = Path.GetExtension(photoDto.FileName);
+                // Generate unique filename with validated extension
                 var uniqueFileName = $"{id}_{Guid.NewGuid()}{fileExtension}";
                 var filePath = Path.Combine(uploadsDir, uniqueFileName);
 
@@ -205,10 +226,38 @@ namespace IncomingGoodsBackend.Controllers
                     uploadDate = photo.UploadDate
                 });
             }
+            catch (FormatException)
+            {
+                return BadRequest(new { message = "Invalid base64 data format." });
+            }
             catch (Exception ex)
             {
                 _logger.LogError($"Error uploading photo: {ex.Message}");
                 return StatusCode(500, new { message = "Error uploading photo", error = ex.Message });
+            }
+        }
+
+        // Helper method to validate base64 string
+        private bool IsValidBase64String(string base64String)
+        {
+            if (string.IsNullOrEmpty(base64String))
+                return false;
+
+            // Remove any whitespace
+            base64String = base64String.Trim();
+
+            // Check if the length is valid for base64
+            if (base64String.Length % 4 != 0)
+                return false;
+
+            try
+            {
+                Convert.FromBase64String(base64String);
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 

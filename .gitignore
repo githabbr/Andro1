@@ -32,3 +32,13 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# .NET Backend
+Backend/bin/
+Backend/obj/
+Backend/uploads/
+Backend/*.user
+Backend/.vs/
+
+# macOS
+.DS_Store

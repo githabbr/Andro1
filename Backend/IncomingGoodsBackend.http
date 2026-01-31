@@ -1,0 +1,49 @@
+@IncomingGoodsBackend_HostAddress = http://localhost:5000
+
+### Get all orders
+GET {{IncomingGoodsBackend_HostAddress}}/api/orders
+Accept: application/json
+
+###
+
+### Get order by barcode
+GET {{IncomingGoodsBackend_HostAddress}}/api/orders/barcode/123456789
+Accept: application/json
+
+###
+
+### Get order by ID
+GET {{IncomingGoodsBackend_HostAddress}}/api/orders/1
+Accept: application/json
+
+###
+
+### Report arrival
+POST {{IncomingGoodsBackend_HostAddress}}/api/orders/1/arrival
+Content-Type: application/json
+
+###
+
+### Report completion
+POST {{IncomingGoodsBackend_HostAddress}}/api/orders/1/completion
+Content-Type: application/json
+
+###
+
+### Close order
+POST {{IncomingGoodsBackend_HostAddress}}/api/orders/1/close
+Content-Type: application/json
+
+###
+
+### Upload photo
+POST {{IncomingGoodsBackend_HostAddress}}/api/orders/1/photos
+Content-Type: application/json
+
+{
+  "fileName": "test_photo.jpg",
+  "base64Data": "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAr/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCwAB//2Q=="
+}
+
+###
+

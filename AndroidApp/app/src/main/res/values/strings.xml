@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Incoming Goods</string>
+    <string name="scan_barcode">Scan Barcode</string>
+    <string name="order_details">Order Details</string>
+    <string name="report_arrival">Report Arrival</string>
+    <string name="report_completion">Report Completion</string>
+    <string name="close_order">Close Order</string>
+    <string name="take_photo">Take Photo</string>
+</resources>
